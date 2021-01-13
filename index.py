@@ -21,6 +21,7 @@ class Index:
         self.cursor = self.connection.cursor()
         self.create_tables()
         self.fill_tables()
+        self.create_stats_table()
 
     @staticmethod
     def get_arguments(kwargs):
@@ -62,6 +63,10 @@ class Index:
         except:
             pass
         query = f'CREATE TABLE {table_name} ({", ".join([f"{a} {b}" for a, b in zip(column_names, column_types)])});'
+        self.cursor.execute(query)
+
+    def create_stats_table(self):
+        query = 'CREATE TABLE stats AS (SELECT COUNT(docs.doc_id) AS num_docs, SUM(docs.len) / COUNT(docs.len) AS avgdl FROM docs);'
         self.cursor.execute(query)
 
     def create_tables(self):
