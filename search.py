@@ -28,6 +28,8 @@ class Search:
             raise IOError('Database path needs to be provided.')
         if arguments['collection_name'] is None:
             raise IOError('Collection name needs to be provided.')
+        if arguments['collection_name'] not in ['robust04', 'core17', 'core18']:
+            raise IOError('Collection name needs to be one of: robust04, core17, core18')
         if arguments['outfile'] is None:
             raise IOError('Output file needs to be provided.')
         return arguments
@@ -66,6 +68,7 @@ if __name__ == '__main__':
                         '--collection_name',
                         required=True,
                         metavar='[string]',
+                        choices=['robust04', 'core17', 'core18'],
                         help='Name of the collection.')
     parser.add_argument('-o',
                         '--outfile',
